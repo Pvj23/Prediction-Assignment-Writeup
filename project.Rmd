@@ -119,7 +119,7 @@ confusionMatrix(predtree, test$classe)
 confusionMatrix(predtree, test$classe)$overall["Accuracy"]
 ```
 
-*The Accuracy for this model is about 74%. This corresponds to the Out of sample error. For this methode, i expected the accuracy to be little higher than 75%*
+*The Accuracy for this model is about 74%. The corresponds to the Out of sample error of 26%. For this methode, i expected the accuracy to be little higher than 75%*
 
 ## PREDICTIONS USING RANDOM FOREST.
 
@@ -149,7 +149,7 @@ confusionMatrix(predrf, test$classe)
 confusionMatrix(predrf, test$classe)$overall["Accuracy"]
 ```
 
-**The accuracy for random forest is almost 99.22%. The Out of sample error is quite higher so I pick it as the best algorithm for prediction as compared to the previous on since the accuracy quite good which means it can do well on unknown datasets.** 
+**The accuracy for random forest is almost 99.22%. The Out of sample error of 0.8%, so I pick it as the best algorithm for prediction as compared to the previous on since the accuracy quite good which means it can do well on unknown datasets.** 
 
 ***
 
