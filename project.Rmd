@@ -6,9 +6,9 @@ output: html_document
 ---
 
 ***
-# Part 1: Goal Of the Project
+# Part 1: GOAL OF THE PROJECT
 
-## Background
+## BACKGROUND
 Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now
 possible to collect a large amount of data about personal activity
 relatively inexpensively. These type of devices are part of the
@@ -22,7 +22,7 @@ of 6 participants. They were asked to perform barbell lifts correctly and
 incorrectly in 5 different ways. More information is available from the
 website [here](http://groupware.les.inf.puc-rio.br/har)
 
-## Goal
+## GOAL
 
 Creating a report describing
 * how the model is built
@@ -74,7 +74,10 @@ training <- training[, -c(1:7)]; testing <- testing[, -c(1:7)]
 dim(testing); dim(training)
 ```
 
-We now have 53 valuable for this analysis. 
+We have 53 valuable for this analysis. 
+
+
+## PARTITIONING THE TRAINING DATASET
 
 ```{r}
 intrain <- createDataPartition(training$classe, p=.7, list = FALSE)
@@ -83,21 +86,25 @@ test <- training[-intrain, ]
 
 ```
 
+
 ***
 # PART 3: PREDICTION MODEL
 
-## PREDICTION WITH TREES
+In this part, i will fit models using different methods then pick the oe with the highest accuracy. 
+
+## PREDICTION USING DECISION TREE
+
+I will fit a prediction model using decision tree and check its accuracy. 
 
 ```{r, cache=TRUE, message=FALSE}
 set.seed(1234)
 
-library(rpart); library(rattle)
+library(rpart)
 
 ##model fitting
 modtree <- rpart(classe ~ ., data = train, method="class")
-fancyRpartPlot(modtree)
 
-##prediction Accuracy by this method.
+##Accuracy check
 predtree <- predict(modtree, newdata = test, type="class")
 confusionMatrix(predtree, test$classe)$overall["Accuracy"] 
 
@@ -105,4 +112,39 @@ confusionMatrix(predtree, test$classe)$overall["Accuracy"]
 
 The Accuracy for this model is about 74%. 
 
+## PREDICTIONS USING RANDOM FOREST.
 
+I will fit a prediction model using random forest and check its accuracy.  
+
+
+```{r, cache=TRUE}
+set.seed(5678)
+library(caret)
+
+##Model fitting
+   modrf <- train(classe ~ ., data = train,method = "rf", metric = "Accuracy", preProcess=c("center", "scale"), trControl=trainControl(method = "cv", number = 3))
+
+##Accuracy check
+predrf <- predict(modrf, newdata=test)
+confusionMatrix(predrf, test$classe)$overall["Accuracy"]
+
+```
+
+The accuracy for random forest is almost 100% so we pick it as the best algorithm for prediction as compared to prediction with trees. 
+
+
+```{r, cache=TRUE}
+confusionMatrix(predrf, test$classe)
+```
+
+***
+
+#PART 3: APPLICATION OF THE BEST MODEL TO TESTING DATASET.
+
+The best model, that is the one with the highest accuracy is applied on the testing dataset, that is the dataset for the quiz. This simply verifies how best the model is. 
+
+```{r}
+predict(modrf, newdata=testing)
+```
+
+The prediction is 100% correct. 
