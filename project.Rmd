@@ -1,0 +1,52 @@
+---
+title: "MACHINE LEARNING PROJECT"
+author: "VINCENT JUNIOR"
+date: "8/1/2020"
+output: html_document
+---
+
+***
+# Part 1: Goal Of the Project
+
+## Background
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement – a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, the goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website [here](http://groupware.les.inf.puc-rio.br/har)
+
+## Goal
+
+Creating a report describing
+* how the model is built
+* how you cross validation was used
+* what I think the expected out of sample error is
+* why I made the choices I did
+
+***
+# PART 2: GETTING AND CLEANING OF DATA
+
+## DOWNLOADING DATASETS
+
+```{r, cache=TRUE, message=FALSE}
+
+trainingName <- 'training.csv'; testingName <- 'testing.csv'
+trainingUrl<- 'https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv'
+testingUrl <- 'https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv'
+
+download.file(trainingUrl, trainingName)
+download.file(testingUrl,testingName)
+downloaddate <-date()
+```
+
+## LOADING AND CLEANING THE DATA
+
+The data has come missing values. We are going to eliminate them.
+
+```{r, cache=TRUE}
+training <- read.csv("training.csv", header = TRUE, sep = ",", na.strings=c("NA","","#DIV/0!"))
+training <-training[,colSums(is.na(training)) == 0]
+
+testing <- read.csv("testing.csv", header = TRUE, sep = ",", na.strings=c("NA", "", "#DIV/0!"))
+testing <-testing[,colSums(is.na(testing)) == 0]
+
+any(is.na(training)); any(is.na(testing))
+```
+
+
