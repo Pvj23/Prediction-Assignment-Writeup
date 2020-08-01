@@ -514,12 +514,7 @@ confusionMatrix(predtree, test$classe)</code></pre>
 ## Detection Rate         0.2518   0.1026   0.1409   0.1026   0.1371
 ## Detection Prevalence   0.3249   0.1337   0.2122   0.1482   0.1810
 ## Balanced Accuracy      0.8916   0.7459   0.8608   0.7860   0.8461</code></pre>
-<pre class="r"><code>##Accuracy check
-
-confusionMatrix(predtree, test$classe)$overall[&quot;Accuracy&quot;]</code></pre>
-<pre><code>##  Accuracy 
-## 0.7350892</code></pre>
-<p><em>The Accuracy for this model is about 74%. This corresponds to the Out of sample error. For this methode, i expected the accuracy to be little higher than 75%</em></p>
+<p><em>The Accuracy for this model is about 74%. The corresponds to the Out of sample error of 26%. For this methode, i expected the accuracy to be little higher than 75%</em></p>
 </div>
 <div id="predictions-using-random-forest." class="section level2">
 <h2>PREDICTIONS USING RANDOM FOREST.</h2>
@@ -570,7 +565,7 @@ confusionMatrix(predrf, test$classe)</code></pre>
 confusionMatrix(predrf, test$classe)$overall[&quot;Accuracy&quot;]</code></pre>
 <pre><code>##  Accuracy 
 ## 0.9915038</code></pre>
-<p><strong>The accuracy for random forest is almost 99.22%. The Out of sample error is quite higher so I pick it as the best algorithm for prediction as compared to the previous on since the accuracy quite good which means it can do well on unknown datasets.</strong></p>
+<p><strong>The accuracy for random forest is almost 99.22%. The Out of sample error of 0.8%, so I pick it as the best algorithm for prediction as compared to the previous on since the accuracy quite good which means it can do well on unknown datasets.</strong></p>
 <hr />
 </div>
 </div>

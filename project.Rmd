@@ -113,11 +113,6 @@ predtree <- predict(modtree, newdata = test, type="class")
 confusionMatrix(predtree, test$classe)
 ```
 
-```{r}
-##Accuracy check
-
-confusionMatrix(predtree, test$classe)$overall["Accuracy"]
-```
 
 *The Accuracy for this model is about 74%. The corresponds to the Out of sample error of 26%. For this methode, i expected the accuracy to be little higher than 75%*
 
