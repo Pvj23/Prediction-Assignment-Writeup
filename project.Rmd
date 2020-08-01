@@ -48,7 +48,7 @@ downloaddate <-date()
 
 ## LOADING AND CLEANING THE DATA
 
-The data has come missing values. We are going to eliminate them.
+The data has some missing values. We are going to eliminate them.
 
 ```{r, cache=TRUE}
 training <- read.csv("training.csv", header = TRUE, sep = ",", na.strings=c("NA","","#DIV/0!"))
@@ -59,5 +59,50 @@ testing <-testing[,colSums(is.na(testing)) == 0]
 
 any(is.na(training)); any(is.na(testing))
 ```
+
+All missing values are removed. 
+
+```{r}
+names(training); names(testing)
+```
+
+We are going to remove the first five valuables since they identity valuables. 
+
+```{r}
+training <- training[, -c(1:7)]; testing <- testing[, -c(1:7)]
+
+dim(testing); dim(training)
+```
+
+We now have 53 valuable for this analysis. 
+
+```{r}
+intrain <- createDataPartition(training$classe, p=.7, list = FALSE)
+train <-training[intrain,]
+test <- training[-intrain, ]
+
+```
+
+***
+# PART 3: PREDICTION MODEL
+
+## PREDICTION WITH TREES
+
+```{r, cache=TRUE, message=FALSE}
+set.seed(1234)
+
+library(rpart); library(rattle)
+
+##model fitting
+modtree <- rpart(classe ~ ., data = train, method="class")
+fancyRpartPlot(modtree)
+
+##prediction Accuracy by this method.
+predtree <- predict(modtree, newdata = test, type="class")
+confusionMatrix(predtree, test$classe)$overall["Accuracy"] 
+
+```
+
+The Accuracy for this model is about 74%. 
 
 
