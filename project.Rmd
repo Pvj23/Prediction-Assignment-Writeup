@@ -111,11 +111,11 @@ modtree <- rpart(classe ~ ., data = train, method="class")
 predtree <- predict(modtree, newdata = test, type="class")
 
 confusionMatrix(predtree, test$classe)
-
 ```
 
 ```{r}
 ##Accuracy check
+
 confusionMatrix(predtree, test$classe)$overall["Accuracy"]
 ```
 
@@ -149,7 +149,7 @@ confusionMatrix(predrf, test$classe)
 confusionMatrix(predrf, test$classe)$overall["Accuracy"]
 ```
 
-*The accuracy for random forest is almost 99.22%. The Out of sample error is quite higher so I pick it as the best algorithm for prediction as compared to the previous on since the accuracy quite good which means it can do well on unknown datasets.* 
+**The accuracy for random forest is almost 99.22%. The Out of sample error is quite higher so I pick it as the best algorithm for prediction as compared to the previous on since the accuracy quite good which means it can do well on unknown datasets.** 
 
 ***
 
