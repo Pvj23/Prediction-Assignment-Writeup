@@ -80,6 +80,7 @@ We have 53 valuable for this analysis.
 ## PARTITIONING THE TRAINING DATASET
 
 ```{r}
+library(caret)
 intrain <- createDataPartition(training$classe, p=.7, list = FALSE)
 train <-training[intrain,]
 test <- training[-intrain, ]
