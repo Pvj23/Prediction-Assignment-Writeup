@@ -6,9 +6,11 @@ output: html_document
 ---
 
 ***
+
 # Part 1: GOAL OF THE PROJECT
 
 ## BACKGROUND
+
 Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now
 possible to collect a large amount of data about personal activity
 relatively inexpensively. These type of devices are part of the
@@ -66,7 +68,7 @@ All missing values are removed.
 names(training); names(testing)
 ```
 
-We are going to remove the first five valuables since they identity valuables. 
+We are going to remove the first 7 valuables since they are identity valuables. 
 
 ```{r}
 training <- training[, -c(1:7)]; testing <- testing[, -c(1:7)]
@@ -79,7 +81,7 @@ We have 53 valuable for this analysis.
 
 ## PARTITIONING THE TRAINING DATASET
 
-```{r}
+```{r, message=FALSE, cache=TRUE}
 library(caret)
 intrain <- createDataPartition(training$classe, p=.7, list = FALSE)
 train <-training[intrain,]
@@ -131,16 +133,18 @@ confusionMatrix(predrf, test$classe)$overall["Accuracy"]
 
 ```
 
-The accuracy for random forest is almost 100% so we pick it as the best algorithm for prediction as compared to prediction with trees. 
+The accuracy for random forest is almost 100% so I pick it as the best algorithm for prediction as compared to prediction with trees. 
 
 
 ```{r, cache=TRUE}
 confusionMatrix(predrf, test$classe)
 ```
 
+
+
 ***
 
-#PART 3: APPLICATION OF THE BEST MODEL TO TESTING DATASET.
+# PART 3: APPLICATION OF THE BEST MODEL TO TESTING DATASET.
 
 The best model, that is the one with the highest accuracy is applied on the testing dataset, that is the dataset for the quiz. This simply verifies how best the model is. 
 
