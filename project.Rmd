@@ -131,7 +131,7 @@ set.seed(5678)
 library(caret)
 
 ##Model fitting
-   modrf <- train(classe ~ ., data = train,method = "rf", metric = "Accuracy", preProcess=c("center", "scale"), trControl=trainControl(method = "cv", number = 5) ##CROSS VARIDATION WITH K=5)
+   modrf <- train(classe ~ ., data = train,method = "rf", metric = "Accuracy", preProcess=c("center", "scale"), trControl=trainControl(method = "cv", number = 5))
 
 
 predrf <- predict(modrf, newdata=test)
