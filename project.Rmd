@@ -107,13 +107,19 @@ library(rpart)
 ##model fitting
 modtree <- rpart(classe ~ ., data = train, method="class")
 
-##Accuracy check
+
 predtree <- predict(modtree, newdata = test, type="class")
-confusionMatrix(predtree, test$classe)$overall["Accuracy"] 
+
+confusionMatrix(predtree, test$classe)
 
 ```
 
-The Accuracy for this model is about 74%. 
+```{r}
+##Accuracy check
+confusionMatrix(predtree, test$classe)$overall["Accuracy"]
+```
+
+*The Accuracy for this model is about 74%. This corresponds to the Out of sample error. For this methode, i expected the accuracy to be little higher than 75%*
 
 ## PREDICTIONS USING RANDOM FOREST.
 
@@ -125,22 +131,25 @@ set.seed(5678)
 library(caret)
 
 ##Model fitting
-   modrf <- train(classe ~ ., data = train,method = "rf", metric = "Accuracy", preProcess=c("center", "scale"), trControl=trainControl(method = "cv", number = 3))
+   modrf <- train(classe ~ ., data = train,method = "rf", metric = "Accuracy", preProcess=c("center", "scale"), trControl=trainControl(method = "cv", number = 5) ##CROSS VARIDATION WITH K=5)
 
-##Accuracy check
+
 predrf <- predict(modrf, newdata=test)
-confusionMatrix(predrf, test$classe)$overall["Accuracy"]
+
+confusionMatrix(predrf, test$classe)
+
+
 
 ```
 
-The accuracy for random forest is almost 100% so I pick it as the best algorithm for prediction as compared to prediction with trees. 
 
 
 ```{r, cache=TRUE}
-confusionMatrix(predrf, test$classe)
+##Accuracy check
+confusionMatrix(predrf, test$classe)$overall["Accuracy"]
 ```
 
-
+*The accuracy for random forest is almost 99.22%. The Out of sample error is quite higher so I pick it as the best algorithm for prediction as compared to the previous on since the accuracy quite good which means it can do well on unknown datasets.* 
 
 ***
 
