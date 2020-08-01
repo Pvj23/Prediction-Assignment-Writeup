@@ -478,12 +478,48 @@ library(rpart)
 ##model fitting
 modtree &lt;- rpart(classe ~ ., data = train, method=&quot;class&quot;)
 
-##Accuracy check
+
 predtree &lt;- predict(modtree, newdata = test, type=&quot;class&quot;)
-confusionMatrix(predtree, test$classe)$overall[&quot;Accuracy&quot;] </code></pre>
+
+confusionMatrix(predtree, test$classe)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction    A    B    C    D    E
+##          A 1482  260   15  111   44
+##          B   46  604   55   23   59
+##          C   38  111  829  164  107
+##          D   61   81   61  604   65
+##          E   47   83   66   62  807
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.7351          
+##                  95% CI : (0.7236, 0.7463)
+##     No Information Rate : 0.2845          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.6635          
+##                                           
+##  Mcnemar&#39;s Test P-Value : &lt; 2.2e-16       
+## 
+## Statistics by Class:
+## 
+##                      Class: A Class: B Class: C Class: D Class: E
+## Sensitivity            0.8853   0.5303   0.8080   0.6266   0.7458
+## Specificity            0.8979   0.9614   0.9136   0.9455   0.9463
+## Pos Pred Value         0.7751   0.7675   0.6637   0.6927   0.7577
+## Neg Pred Value         0.9517   0.8951   0.9575   0.9282   0.9429
+## Prevalence             0.2845   0.1935   0.1743   0.1638   0.1839
+## Detection Rate         0.2518   0.1026   0.1409   0.1026   0.1371
+## Detection Prevalence   0.3249   0.1337   0.2122   0.1482   0.1810
+## Balanced Accuracy      0.8916   0.7459   0.8608   0.7860   0.8461</code></pre>
+<pre class="r"><code>##Accuracy check
+
+confusionMatrix(predtree, test$classe)$overall[&quot;Accuracy&quot;]</code></pre>
 <pre><code>##  Accuracy 
-## 0.7514019</code></pre>
-<p>The Accuracy for this model is about 74%.</p>
+## 0.7350892</code></pre>
+<p><em>The Accuracy for this model is about 74%. This corresponds to the Out of sample error. For this methode, i expected the accuracy to be little higher than 75%</em></p>
 </div>
 <div id="predictions-using-random-forest." class="section level2">
 <h2>PREDICTIONS USING RANDOM FOREST.</h2>
@@ -492,47 +528,49 @@ confusionMatrix(predtree, test$classe)$overall[&quot;Accuracy&quot;] </code></pr
 library(caret)
 
 ##Model fitting
-   modrf &lt;- train(classe ~ ., data = train,method = &quot;rf&quot;, metric = &quot;Accuracy&quot;, preProcess=c(&quot;center&quot;, &quot;scale&quot;), trControl=trainControl(method = &quot;cv&quot;, number = 3))
+   modrf &lt;- train(classe ~ ., data = train,method = &quot;rf&quot;, metric = &quot;Accuracy&quot;, preProcess=c(&quot;center&quot;, &quot;scale&quot;), trControl=trainControl(method = &quot;cv&quot;, number = 5))
 
-##Accuracy check
+
 predrf &lt;- predict(modrf, newdata=test)
-confusionMatrix(predrf, test$classe)$overall[&quot;Accuracy&quot;]</code></pre>
-<pre><code>##  Accuracy 
-## 0.9930331</code></pre>
-<p>The accuracy for random forest is almost 100% so I pick it as the best algorithm for prediction as compared to prediction with trees.</p>
-<pre class="r"><code>confusionMatrix(predrf, test$classe)</code></pre>
+
+confusionMatrix(predrf, test$classe)</code></pre>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
 ## Prediction    A    B    C    D    E
-##          A 1671   12    0    0    0
-##          B    1 1125    6    0    0
-##          C    2    2 1019    9    2
-##          D    0    0    1  955    6
-##          E    0    0    0    0 1074
+##          A 1674   10    0    0    0
+##          B    0 1126    9    0    0
+##          C    0    3 1016   22    3
+##          D    0    0    1  942    2
+##          E    0    0    0    0 1077
 ## 
 ## Overall Statistics
-##                                          
-##                Accuracy : 0.993          
-##                  95% CI : (0.9906, 0.995)
-##     No Information Rate : 0.2845         
-##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16      
-##                                          
-##                   Kappa : 0.9912         
-##                                          
-##  Mcnemar&#39;s Test P-Value : NA             
+##                                           
+##                Accuracy : 0.9915          
+##                  95% CI : (0.9888, 0.9937)
+##     No Information Rate : 0.2845          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.9893          
+##                                           
+##  Mcnemar&#39;s Test P-Value : NA              
 ## 
 ## Statistics by Class:
 ## 
 ##                      Class: A Class: B Class: C Class: D Class: E
-## Sensitivity            0.9982   0.9877   0.9932   0.9907   0.9926
-## Specificity            0.9972   0.9985   0.9969   0.9986   1.0000
-## Pos Pred Value         0.9929   0.9938   0.9855   0.9927   1.0000
-## Neg Pred Value         0.9993   0.9971   0.9986   0.9982   0.9983
+## Sensitivity            1.0000   0.9886   0.9903   0.9772   0.9954
+## Specificity            0.9976   0.9981   0.9942   0.9994   1.0000
+## Pos Pred Value         0.9941   0.9921   0.9732   0.9968   1.0000
+## Neg Pred Value         1.0000   0.9973   0.9979   0.9955   0.9990
 ## Prevalence             0.2845   0.1935   0.1743   0.1638   0.1839
-## Detection Rate         0.2839   0.1912   0.1732   0.1623   0.1825
-## Detection Prevalence   0.2860   0.1924   0.1757   0.1635   0.1825
-## Balanced Accuracy      0.9977   0.9931   0.9950   0.9946   0.9963</code></pre>
+## Detection Rate         0.2845   0.1913   0.1726   0.1601   0.1830
+## Detection Prevalence   0.2862   0.1929   0.1774   0.1606   0.1830
+## Balanced Accuracy      0.9988   0.9933   0.9922   0.9883   0.9977</code></pre>
+<pre class="r"><code>##Accuracy check
+confusionMatrix(predrf, test$classe)$overall[&quot;Accuracy&quot;]</code></pre>
+<pre><code>##  Accuracy 
+## 0.9915038</code></pre>
+<p><strong>The accuracy for random forest is almost 99.22%. The Out of sample error is quite higher so I pick it as the best algorithm for prediction as compared to the previous on since the accuracy quite good which means it can do well on unknown datasets.</strong></p>
 <hr />
 </div>
 </div>
